@@ -8,8 +8,9 @@ class TimerForm extends React.Component {
             work: parseInt(e.target.elements.work.value),
             rest: parseInt(e.target.elements.rest.value)
         };
-
-        this.props.onSubmit(exercise);
+        if (exercise.sets && exercise.work && exercise.rest) {
+            this.props.onSubmit(exercise);
+        }
     };
 
     render() {

@@ -1,16 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import AppRouter from './routers/AppRouter';
-import configureStore from './store/configureStore';
+import IntervalsApp from './components/IntervalsApp'
 
-const store = configureStore();
-console.log(store);
-
-const jsx = (
-    <Provider store={store}>
-        <AppRouter/>
-    </Provider>
-);
-
-ReactDOM.render(jsx, document.getElementById('app'));
+ReactDOM.render(<IntervalsApp/>, document.getElementById('app'));

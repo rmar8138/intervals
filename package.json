@@ -9,6 +9,7 @@
     "dev-server": "webpack-dev-server"
   },
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "node-sass": "^4.9.3",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
