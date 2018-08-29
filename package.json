@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
+    "moment": "^2.22.2",
     "node-sass": "^4.9.3",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
