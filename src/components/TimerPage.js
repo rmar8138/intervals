@@ -5,8 +5,8 @@ class TimerPage extends React.Component {
             sets: this.props.timerSettings.sets,
             work: this.props.timerSettings.work,
             rest: this.props.timerSettings.rest,
-            isWork: this.props.timerSettings.isWork,
-            isRest: this.props.timerSettings.isRest,
+            isWork: false,
+            isRest: false,
             countdown: 3,
             message: ''
     }
@@ -17,10 +17,12 @@ class TimerPage extends React.Component {
 
     startCountdown = () => {
         // 3 sec countdown
-        this.setState(({ countdown: 3 }));
+        this.setState(({
+            countdown: 3,
+            isWork: true
+        }));
         let countDown = setInterval(() => {
             this.setState((prevState) => ({
-                isWork: true,
                 countdown: prevState.countdown - 1
             }));
 
@@ -34,11 +36,13 @@ class TimerPage extends React.Component {
     }
 
     startTimer = () => {
+        // work timer
         let workTimer = setInterval(() => {
             this.setState((prevState) => ({
                 work: prevState.work - 1
             }));
 
+            // if work timer finishes on the last set, end timer
             if (this.state.work === 0 && this.state.sets === 1) {
                 clearInterval(workTimer);
                 this.setState(() => ({
@@ -49,6 +53,7 @@ class TimerPage extends React.Component {
                     isRest: false,
                     message: 'Good job!'
                 }));
+                // if work timer finishes, move to rest timer
             } else if (this.state.work === 0) {
                 clearInterval(workTimer);
                 this.setState(() => ({
@@ -58,11 +63,13 @@ class TimerPage extends React.Component {
                     message: 'Rest'
                 }));
 
+                // rest timer
                 let restTimer = setInterval(() => {
                     this.setState((prevState) => ({
                         rest: prevState.rest - 1
                     }));
 
+                    // if rest timer finishes, minus 1 set, start timer again
                     if (this.state.rest === 0) {
                         clearInterval(restTimer);
                         this.setState((prevState) => ({
@@ -72,20 +79,7 @@ class TimerPage extends React.Component {
                             isRest: false,
                             message: 'Go!'
                         }));
-
-                        if (this.state.sets > 0) {
-                            this.startTimer();
-                        } else {
-                            this.setState(() => ({
-                                sets: this.props.timerSettings.sets,
-                                work: this.props.timerSettings.work,
-                                rest: this.props.timerSettings.rest,
-                                isWork: false,
-                                isRest: false,
-                                countdown: 3,
-                                message: 'Good job!'
-                            }));
-                        }
+                        this.startTimer();
                     }
                 }, 1000);
             }
@@ -100,11 +94,9 @@ class TimerPage extends React.Component {
                 <p>{this.state.countdown ? this.state.countdown : this.state.message}</p>
                 <p>{this.state.isWork ? this.state.work : this.state.rest}</p>
                 {!this.state.isWork && !this.state.isRest && 
-                    <React.Fragment>
-                        <button onClick={this.startCountdown}>Go again?</button>
-                        <button onClick={this.props.returnHome}>Go back</button>
-                    </React.Fragment>
+                    <button onClick={this.startCountdown}>Go again?</button>
                 }
+                <button onClick={this.props.returnHome}>Go back</button>
             </React.Fragment>
         );
     }

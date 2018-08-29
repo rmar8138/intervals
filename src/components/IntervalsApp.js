@@ -7,8 +7,7 @@ class IntervalsApp extends React.Component {
         sets: 0,
         work: 0,
         rest: 0,
-        isWork: false,
-        isRest: false
+        timerIsSet: false
     };
 
     state = this.initialState;
@@ -16,21 +15,18 @@ class IntervalsApp extends React.Component {
     setTimer = (timerSettings) => {
         this.setState(() => ({ 
             ...timerSettings,
-            isWork: true
+            timerIsSet: true
          }));
     }
     
     returnHome = () => {
-        this.setState(() => ({
-            isWork: false,
-            isRest: false
-        }))
+        this.setState(() => ({ ...this.initialState }));
     }
 
     render() {
         return (
             <React.Fragment>
-                {this.state.isWork || this.state.isRest === true ? 
+                {this.state.timerIsSet === true ? 
                     <TimerPage 
                         timerSettings={this.state}
                         returnHome={this.returnHome}
