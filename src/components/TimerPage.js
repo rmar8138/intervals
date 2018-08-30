@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 
 class TimerPage extends React.Component {
     state = {
@@ -8,7 +9,7 @@ class TimerPage extends React.Component {
             isWork: false,
             isRest: false,
             countdown: 3,
-            message: ''
+            message: '',
     }
 
     componentDidMount() {
@@ -21,14 +22,14 @@ class TimerPage extends React.Component {
             countdown: 3,
             isWork: true
         }));
-        let countDown = setInterval(() => {
+        this.state.countdownTimer = setInterval(() => {
             this.setState((prevState) => ({
                 countdown: prevState.countdown - 1
             }));
 
             if (this.state.countdown === 0) {
                 this.setState({ message: 'Go!' });
-                clearInterval(countDown);
+                clearInterval(this.state.countdownTimer);
 
                 this.startTimer();
             }
@@ -37,14 +38,14 @@ class TimerPage extends React.Component {
 
     startTimer = () => {
         // work timer
-        let workTimer = setInterval(() => {
+        this.state.workTimer = setInterval(() => {
             this.setState((prevState) => ({
                 work: prevState.work - 1
             }));
 
             // if work timer finishes on the last set, end timer
             if (this.state.work === 0 && this.state.sets === 1) {
-                clearInterval(workTimer);
+                clearInterval(this.state.workTimer);
                 this.setState(() => ({
                     sets: this.props.timerSettings.sets,
                     work: this.props.timerSettings.work,
@@ -55,7 +56,7 @@ class TimerPage extends React.Component {
                 }));
                 // if work timer finishes, move to rest timer
             } else if (this.state.work === 0) {
-                clearInterval(workTimer);
+                clearInterval(this.state.workTimer);
                 this.setState(() => ({
                     work: this.props.timerSettings.work,
                     isWork: false,
@@ -64,14 +65,14 @@ class TimerPage extends React.Component {
                 }));
 
                 // rest timer
-                let restTimer = setInterval(() => {
+                this.state.restTimer = setInterval(() => {
                     this.setState((prevState) => ({
                         rest: prevState.rest - 1
                     }));
 
                     // if rest timer finishes, minus 1 set, start timer again
                     if (this.state.rest === 0) {
-                        clearInterval(restTimer);
+                        clearInterval(this.state.restTimer);
                         this.setState((prevState) => ({
                             sets: prevState.sets - 1,
                             rest: this.props.timerSettings.rest,
@@ -86,17 +87,29 @@ class TimerPage extends React.Component {
         }, 1000);
     }
 
+    clearTimer = () => {
+        // clear all timers when returning to home page
+        clearInterval(this.state.countdownTimer);
+        clearInterval(this.state.workTimer);
+        clearInterval(this.state.restTimer);
+        this.props.returnHome();
+    }
+
     render() {
         return (
             <React.Fragment>
                 <h1>This is the timer page</h1>
                 <p>Sets left: {this.state.sets}</p>
                 <p>{this.state.countdown ? this.state.countdown : this.state.message}</p>
-                <p>{this.state.isWork ? this.state.work : this.state.rest}</p>
+                <p>{
+                    this.state.isWork ? 
+                    moment(moment.duration(this.state.work, 'seconds')._milliseconds).format('mm:ss') : 
+                    moment(moment.duration(this.state.rest, 'seconds')._milliseconds).format('mm:ss')
+                }</p>
                 {!this.state.isWork && !this.state.isRest && 
                     <button onClick={this.startCountdown}>Go again?</button>
                 }
-                <button onClick={this.props.returnHome}>Go back</button>
+                <button onClick={this.clearTimer}>Go back</button>
             </React.Fragment>
         );
     }
