@@ -1,4 +1,5 @@
 import React from 'react';
+import Header from './Header';
 import HomePage from './HomePage';
 import TimerPage from './TimerPage';
 
@@ -25,14 +26,15 @@ class IntervalsApp extends React.Component {
 
     render() {
         return (
-            <React.Fragment>
+            <div className='container'>
+                <Header/>
                 {this.state.timerIsSet === true ? 
-                    <TimerPage 
-                        timerSettings={this.state}
-                        returnHome={this.returnHome}
-                    /> :
-                    <HomePage setTimer={this.setTimer}/>}
-            </React.Fragment>
+                <TimerPage
+                    timerSettings={this.state}
+                    returnHome={this.returnHome}
+                /> :
+                <HomePage setTimer={this.setTimer}/>}
+            </div>
         );
     }
 }

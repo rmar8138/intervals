@@ -1,0 +1,37 @@
+// COLORS
+
+$color-black: #333;
+
+// UTILITIES
+
+.u-margin-top-lg { margin-top: 6rem; }
+.u-margin-top-xl { margin-top: 10rem; }
+
+// RESET
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
+html {
+    font-size: 62.5%;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Lato', 'Arial', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 400;
+    line-height: 1.6;
+    color: $color-black;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}

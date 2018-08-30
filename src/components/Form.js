@@ -114,47 +114,52 @@ class Form extends React.Component {
 
     render() {
         return (
-            <form onSubmit={this.onSubmit}>
-                <label>Sets</label>
+            <form className='form' onSubmit={this.onSubmit}>
+                <label className='form__label'>Sets</label>
                 <br/>
                 <input
+                    className='form__input'
                     type="number"
                     name="sets"
                     value={this.state.sets}
                     onChange={this.onChange}
                 />
                 <br/>
-                <label>Work</label>
+                <label className='form__label'>Work</label>
                 <br/>
                 <input
+                    className='form__input'
                     type="number"
                     name="workMin"
                     value={this.state.workMin}
                     onChange={this.onChange}
                 />
                 <input
+                    className='form__input'
                     type="number"
                     name="workSec"
                     value={this.state.workSec}
                     onChange={this.onChange}
                 />
                 <br/>
-                <label>Rest</label>
+                <label className='form__label'>Rest</label>
                 <br/>
                 <input
+                    className='form__input'
                     type="number"
                     name="restMin"
                     value={this.state.restMin}
                     onChange={this.onChange}
                 />
                 <input
+                    className='form__input'
                     type="number"
                     name="restSec"
                     value={this.state.restSec}
                     onChange={this.onChange}
                 />
                 <br/>
-                <button>Start</button>
+                <button className='btn'>Start</button>
             </form>
         );
     }

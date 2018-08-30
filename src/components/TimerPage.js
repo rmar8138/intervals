@@ -97,20 +97,31 @@ class TimerPage extends React.Component {
 
     render() {
         return (
-            <React.Fragment>
-                <h1>This is the timer page</h1>
-                <p>Sets left: {this.state.sets}</p>
-                <p>{this.state.countdown ? this.state.countdown : this.state.message}</p>
-                <p>{
+            <div className='timer'>
+                <p className='timer__sets'>Sets left: {this.state.sets}</p>
+                <p className='timer__message'>{this.state.countdown ? this.state.countdown : this.state.message}</p>
+                <p className='timer__clock u-margin-top-lg'>{
                     this.state.isWork ? 
                     moment(moment.duration(this.state.work, 'seconds')._milliseconds).format('mm:ss') : 
                     moment(moment.duration(this.state.rest, 'seconds')._milliseconds).format('mm:ss')
                 }</p>
+                <button
+                className='btn u-margin-top-xl'
+                onClick={this.clearTimer}
+                >
+                Go back
+                </button>
                 {!this.state.isWork && !this.state.isRest && 
-                    <button onClick={this.startCountdown}>Go again?</button>
+                    <React.Fragment>
+                        <button 
+                            className='btn'
+                            onClick={this.startCountdown}
+                        >
+                            Go again?
+                        </button>
+                    </React.Fragment>
                 }
-                <button onClick={this.clearTimer}>Go back</button>
-            </React.Fragment>
+            </div>
         );
     }
 }
