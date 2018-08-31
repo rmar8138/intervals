@@ -1,99 +1,42 @@
-// import React from 'react';
-
-// class Form extends React.Component {
-//     initialState = {
-//         sets: '',
-//         work: '',
-//         rest: ''
-//     };
-
-//     state = this.initialState;
-
-//     onChange = (e) => {
-
-//             const { name, value } = e.target
-//             this.setState((prevState) => ({
-//                 ...prevState,
-//                 [name]: parseInt(value)
-//             }));
-
-//     }
-
-//     onSubmit = (e) => {
-//         e.preventDefault();
-//         if (this.state.sets && this.state.work && this.state.rest) {
-//             this.props.setTimer(this.state);
-//             this.setState(() => this.initialState);
-//         }
-//     }
-
-//     render() {
-//         return (
-//             <form onSubmit={this.onSubmit}>
-//                 <label>Sets</label>
-//                 <br/>
-//                 <input
-//                     type="number"
-//                     name="sets"
-//                     value={this.state.sets}
-//                     onChange={this.onChange}
-//                 />
-//                 <br/>
-//                 <label>Work</label>
-//                 <br/>
-//                 <input
-//                     type="number"
-//                     name="work"
-//                     value={this.state.work}
-//                     onChange={this.onChange}
-//                 />
-//                 <br/>
-//                 <label>Rest</label>
-//                 <br/>
-//                 <input
-//                     type="number"
-//                     name="rest"
-//                     value={this.state.rest}
-//                     onChange={this.onChange}
-//                 />
-//                 <br/>
-//                 <button>Start</button>
-//             </form>
-//         );
-//     }
-// }
-
-// export default Form;
-
 import React from 'react';
 import moment from 'moment';
 
 class Form extends React.Component {
     initialState = {
-        sets: '',
-        workMin: '',
-        workSec: '',
-        restMin: '',
-        restSec: '',
+        sets: '1',
+        workMin: '01',
+        workSec: '00',
+        restMin: '00',
+        restSec: '30',
         work: 0,
         rest: 0
     };
 
     state = this.initialState;
 
-    onChange = (e) => {
-        const { name, value } = e.target
-        this.setState((prevState) => ({
-               ...prevState,
-            [name]: parseInt(value)
-        }));
+    onChangeSets = (e) => {
+        if (e.target.value.split('').length <= 3) {
+            const { name, value } = e.target
+            this.setState((prevState) => ({
+                ...prevState,
+                [name]: value
+            }));
+        }
+    }
 
+    onChangeTime = (e) => {
+        if (e.target.value.split('').length <= 2) {
+            const { name, value } = e.target
+            this.setState((prevState) => ({
+                ...prevState,
+                [name]: value
+            }));
+        }
     }
 
     onSubmit = (e) => {
         e.preventDefault();
-
-        if (!isNaN(this.state.sets) && !isNaN(this.state.workMin) && !isNaN(this.state.workSec) && !isNaN(this.state.restMin) && !isNaN(this.state.restSec)) {
+        if (parseInt(this.state.sets) > 0 && parseInt(this.state.workMin) + parseInt(this.state.workSec) > 0  && parseInt(this.state.restMin) + parseInt(this.state.restSec) > 0) {
             this.setState((prevState) => ({
                 work: moment.duration(
                     `00:${prevState.workMin}:${prevState.workSec}`
@@ -103,7 +46,7 @@ class Form extends React.Component {
                 )._milliseconds / 1000
             }), () => {
                 this.props.setTimer({
-                    sets: this.state.sets,
+                    sets: parseInt(this.state.sets),
                     work: this.state.work,
                     rest: this.state.rest
                 })
@@ -122,7 +65,7 @@ class Form extends React.Component {
                     type="number"
                     name="sets"
                     value={this.state.sets}
-                    onChange={this.onChange}
+                    onChange={this.onChangeSets}
                 />
                 <br/>
                 <label className='form__label'>Work</label>
@@ -131,15 +74,19 @@ class Form extends React.Component {
                     className='form__input'
                     type="number"
                     name="workMin"
+                    min={0}
+                    max={59}
                     value={this.state.workMin}
-                    onChange={this.onChange}
+                    onChange={this.onChangeTime}
                 />
                 <input
                     className='form__input'
                     type="number"
                     name="workSec"
+                    min={0}
+                    max={59}
                     value={this.state.workSec}
-                    onChange={this.onChange}
+                    onChange={this.onChangeTime}
                 />
                 <br/>
                 <label className='form__label'>Rest</label>
@@ -148,15 +95,19 @@ class Form extends React.Component {
                     className='form__input'
                     type="number"
                     name="restMin"
+                    min={0}
+                    max={59}
                     value={this.state.restMin}
-                    onChange={this.onChange}
+                    onChange={this.onChangeTime}
                 />
                 <input
                     className='form__input'
                     type="number"
                     name="restSec"
+                    min={0}
+                    max={59}
                     value={this.state.restSec}
-                    onChange={this.onChange}
+                    onChange={this.onChangeTime}
                 />
                 <br/>
                 <button className='btn'>Start</button>
